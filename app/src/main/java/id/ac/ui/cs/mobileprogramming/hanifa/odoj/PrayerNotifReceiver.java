@@ -73,6 +73,8 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
                     Gson gson = new Gson();
                     PrayerTimeDTO[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTimeDTO[].class);
                     PrayerTime prayerTime = new PrayerTime(prayerTimeDTO[0]);
+                    System.out.println("REQUEST API");
+                    System.out.println(prayerTime.getDhuhr());
                     createNofication(prayerTime, context);
 
                 } catch (JSONException e) {
@@ -91,11 +93,10 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
         PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
         PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);
         PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);
+        System.out.println("CEK PRAYER TIME NOTIF");
+        System.out.println(prayerTime.getIsha().getTime());
         PrayerNotification notifMaghrib = new PrayerNotification(context, prayerTime.getMaghrib(), MAGHRIB);
-        Calendar tes = Calendar.getInstance();
-        System.out.println(tes.getTime());
-        tes.set(Calendar.MINUTE,tes.get(Calendar.MINUTE)+1);
-        System.out.println(tes.getTime());
-        PrayerNotification notifIsha = new PrayerNotification(context, tes, ISHA);
+        System.out.println(prayerTime.getIsha().getTime());
+        PrayerNotification notifIsha = new PrayerNotification(context, prayerTime.getIsha(), ISHA);
     }
 }

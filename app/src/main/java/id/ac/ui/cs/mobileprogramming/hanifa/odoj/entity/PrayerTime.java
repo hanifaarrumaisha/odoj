@@ -18,17 +18,17 @@ public class PrayerTime {
 
     private void parseData(PrayerTimeDTO dto) {
         HashMap<Integer, Integer> time = parseTime(dto.getFajr());
-        setTime(fajr);
+        setTime(fajr, time);
         time = parseTime(dto.getShurooq());
-        setTime(shurooq);
+        setTime(shurooq, time);
         time = parseTime(dto.getDhuhr());
-        setTime(dhuhr);
+        setTime(dhuhr, time);
         time = parseTime(dto.getAsr());
-        setTime(asr);
+        setTime(asr, time);
         time = parseTime(dto.getMaghrib());
-        setTime(maghrib);
+        setTime(maghrib, time);
         time = parseTime(dto.getIsha());
-        setTime(isha);
+        setTime(isha, time);
     }
 
     private int getAMPM(String ampm){
@@ -42,10 +42,10 @@ public class PrayerTime {
         }
     }
 
-    private void setTime(Calendar time){
-        time.set(Calendar.HOUR, time.get(Calendar.HOUR));
-        time.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
-        time.set(Calendar.AM_PM, time.get(Calendar.AM_PM));
+    private void setTime(Calendar calendar, HashMap<Integer, Integer> mapTime){
+        calendar.set(Calendar.HOUR, mapTime.get(Calendar.HOUR));
+        calendar.set(Calendar.MINUTE, mapTime.get(Calendar.MINUTE));
+        calendar.set(Calendar.AM_PM, mapTime.get(Calendar.AM_PM));
     }
 
     private HashMap parseTime(String time){
