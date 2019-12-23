@@ -20,7 +20,7 @@ public class PrayerNotification {
         this.context = context;
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
-        Intent intent = new Intent(context, NotificationPublisher.class);
+        Intent intent = new Intent(context, NotificationActivity.class);
         intent.putExtra(NotificationPublisher.NOTIFICATION_ID, prayerTime.get(Calendar.HOUR));
         intent.putExtra(NotificationPublisher.NOTIFICATION, getNotificationPrayerTime());
 
@@ -30,6 +30,7 @@ public class PrayerNotification {
     }
 
     public Notification getNotificationPrayerTime() {
+        System.out.println("COBA");
         // Create an explicit intent for an Activity in your app
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context.getApplicationContext(), channelID)
                 .setContentTitle("It's Quran Time!")

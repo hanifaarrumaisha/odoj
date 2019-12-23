@@ -8,12 +8,15 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 import entity.PrayerTime;
 import entity.PrayerTimeDTO;
@@ -75,8 +78,11 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        }, null);
+            }},  new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Can't retrieve API", Toast.LENGTH_LONG).show();
+            }});
         rq.add(jsonObjectRequest);
     }
 
@@ -86,6 +92,8 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
         PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);
         PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);
         PrayerNotification notifMaghrib = new PrayerNotification(context, prayerTime.getMaghrib(), MAGHRIB);
-        PrayerNotification notifIsha = new PrayerNotification(context, prayerTime.getIsha(), ISHA);
+        Calendar tes = Calendar.getInstance();
+        tes.set(Calendar.MINUTE,Calendar.MINUTE+2);
+        PrayerNotification notifIsha = new PrayerNotification(context, tes, ISHA);
     }
 }
