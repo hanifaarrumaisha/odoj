@@ -3,4 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ok">OK</string>
+    <string name="dialog_rationale_read_calendar">This apps need to read your calendar for create notification when you are busy, based on task on your calendar</string>
 </resources>

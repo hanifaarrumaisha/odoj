@@ -21,8 +21,8 @@ public class DateChangeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         testReceiver(context, intent);
-        Intent permissionIntent = new Intent(context, PermissionActivity.class);
-        context.startActivity(permissionIntent);
+        AsyncRequest asyncRequest = new AsyncRequest((Activity) context);
+        asyncRequest.execute("");
     }
 
     public void testReceiver(Context context, Intent intent){
@@ -34,4 +34,32 @@ public class DateChangeReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Broadcast Receiver Nyala", Toast.LENGTH_LONG).show();
     }
 
+
+    private class AsyncRequest extends AsyncTask<String, String, String> {
+        public Activity mActivity;
+
+        public AsyncRequest(Activity a)
+        {
+            this.mActivity = a;
+        }
+
+        @Override
+        protected String doInBackground(String... String) {
+            String url = "https://muslimsalat.com/jakarta/daily.json?key=283714fbf745c829c7163e0b9dfa0cbf";
+            RequestQueue rq = Volley.newRequestQueue(mActivity);
+            rq.start();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,(JSONObject) null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        System.out.println(response.getString("items"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, null);
+            rq.add(jsonObjectRequest);
+            return "";
+        }
+    }
 }
