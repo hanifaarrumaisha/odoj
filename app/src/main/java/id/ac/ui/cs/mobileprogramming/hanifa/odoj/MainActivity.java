@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
     private void registerReceiver() {
         BroadcastReceiver br = new PrayerNotifReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_TIME_TICK);
+        filter.addAction(Intent.ACTION_DATE_CHANGED);
         this.registerReceiver(br, filter);
+
+        this.registerReceiver(new NotificationPublisher(), new IntentFilter());
     }
 
 

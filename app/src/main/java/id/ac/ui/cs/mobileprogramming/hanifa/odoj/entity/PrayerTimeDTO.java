@@ -1,4 +1,4 @@
-package entity;
+package id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity;
 
 public class PrayerTimeDTO {
     private String date_for;

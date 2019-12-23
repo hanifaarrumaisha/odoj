@@ -1,8 +1,5 @@
-package entity;
+package id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity;
 
-import android.util.ArrayMap;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 

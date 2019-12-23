@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat;
 
 import java.util.Calendar;
 
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.R;
+
 import static id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationHelper.channelID;
 
 public class PrayerNotification {
@@ -20,10 +22,9 @@ public class PrayerNotification {
         this.context = context;
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
-        Intent intent = new Intent(context, NotificationActivity.class);
+        Intent intent = new Intent(context, NotificationPublisher.class);
         intent.putExtra(NotificationPublisher.NOTIFICATION_ID, prayerTime.get(Calendar.HOUR));
         intent.putExtra(NotificationPublisher.NOTIFICATION, getNotificationPrayerTime());
-
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, prayerType, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, prayerTime.getTimeInMillis(),
                 pendingIntent);
@@ -33,6 +34,7 @@ public class PrayerNotification {
         System.out.println("COBA");
         // Create an explicit intent for an Activity in your app
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context.getApplicationContext(), channelID)
+                .setSmallIcon(R.drawable.fruit)
                 .setContentTitle("It's Quran Time!")
                 .setContentText("Yuk jangan lupa tilawah 2 lembar:)")
                 .setPriority(NotificationCompat.PRIORITY_MAX)

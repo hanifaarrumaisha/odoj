@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-class NotificationPublisher extends BroadcastReceiver {
+public class NotificationPublisher extends BroadcastReceiver {
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
 

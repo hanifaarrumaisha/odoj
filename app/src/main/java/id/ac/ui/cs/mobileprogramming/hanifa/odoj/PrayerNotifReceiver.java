@@ -18,8 +18,8 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
-import entity.PrayerTime;
-import entity.PrayerTimeDTO;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PrayerTime;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PrayerTimeDTO;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
 
 public class PrayerNotifReceiver extends BroadcastReceiver {
@@ -93,7 +93,9 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
         PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);
         PrayerNotification notifMaghrib = new PrayerNotification(context, prayerTime.getMaghrib(), MAGHRIB);
         Calendar tes = Calendar.getInstance();
-        tes.set(Calendar.MINUTE,Calendar.MINUTE+2);
+        System.out.println(tes.getTime());
+        tes.set(Calendar.MINUTE,tes.get(Calendar.MINUTE)+1);
+        System.out.println(tes.getTime());
         PrayerNotification notifIsha = new PrayerNotification(context, tes, ISHA);
     }
 }

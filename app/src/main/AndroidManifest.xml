@@ -12,13 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".notification.NotificationActivity"></activity>
+        <service
+            android:name=".notification.NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".notification.NotificationActivity" />
 
         <receiver
             android:name=".PrayerNotifReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.TIME_TICK" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>
         </receiver>
 
@@ -30,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notification.NotificationPublisher" />
+        <receiver android:name=".notification.NotificationPublisher" android:enabled="true"/>
     </application>
 
 </manifest>
