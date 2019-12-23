@@ -25,22 +25,5 @@ public class PermissionManager {
                 REQUEST_READ_CALENDAR);
     }
 
-    public Dialog showRationaleDialog(final Activity activity, final String permission) {
-
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        switch (permission){
-            case Manifest.permission.READ_CALENDAR:
-                builder.setMessage(R.string.dialog_rationale_read_calendar)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                requestPermissions(activity, permission);
-                            }
-                        });
-                // Create the AlertDialog object and return it
-                return builder.create();
-        }
-        return null;
-    }
 
 }

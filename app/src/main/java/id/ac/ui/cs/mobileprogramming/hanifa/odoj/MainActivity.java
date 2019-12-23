@@ -1,11 +1,15 @@
 package id.ac.ui.cs.mobileprogramming.hanifa.odoj;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        registerReceiver();
+
         PermissionManager permissionManager = new PermissionManager(this, Manifest.permission.READ_CALENDAR);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_CALENDAR)) {
                 System.out.println("RATIONAL");
-                permissionManager.showRationaleDialog(this, Manifest.permission.READ_CALENDAR);
+                showRationaleDialog(Manifest.permission.READ_CALENDAR).create();
                 permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
             } else {
                 // Check Permissions Now
@@ -46,6 +52,32 @@ public class MainActivity extends AppCompatActivity {
             // permission has been granted, continue as usual
             // TODO lakuin cek calendar
         }
+    }
+
+    private void registerReceiver() {
+        BroadcastReceiver br = new PrayerNotifReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        this.registerReceiver(br, filter);
+    }
+
+
+    public AlertDialog.Builder showRationaleDialog(final String permission) {
+
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        switch (permission){
+            case Manifest.permission.READ_CALENDAR:
+                builder.setMessage(R.string.dialog_rationale_read_calendar)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                return;
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                return builder;
+        }
+        return null;
     }
 
     @Override

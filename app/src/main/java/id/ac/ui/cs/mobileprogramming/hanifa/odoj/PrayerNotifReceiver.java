@@ -22,10 +22,10 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification
 public class PrayerNotifReceiver extends BroadcastReceiver {
     private static final String TAG = "DateChangeReceiver";
     private static final int SHUROOQ = 1;
-    private static final int DHUHR = 1;
-    private static final int ASR = 1;
-    private static final int MAGHRIB = 1;
-    private static final int ISHA = 1;
+    private static final int DHUHR = 2;
+    private static final int ASR = 3;
+    private static final int MAGHRIB = 4;
+    private static final int ISHA = 5;
 
     @Override
     public void onReceive(Context context, Intent intent) {
