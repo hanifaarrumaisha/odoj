@@ -54,7 +54,7 @@ public class PrayerTime {
     private HashMap parseTime(String time){
         HashMap map = new HashMap<Integer, Integer>();
         String[] time_clean = time.split(" ");
-        map.put(Calendar.AM_PM, Integer.parseInt(time_clean[1]));
+        map.put(Calendar.AM_PM, getAMPM(time_clean[1]));
         time_clean = time_clean[0].split(":");
         map.put(Calendar.HOUR, Integer.parseInt(time_clean[0]));
         map.put(Calendar.MINUTE, Integer.parseInt(time_clean[1]));

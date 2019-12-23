@@ -68,8 +68,8 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
             public void onResponse(JSONObject response) {
                 try {
                     Gson gson = new Gson();
-                    PrayerTimeDTO prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTimeDTO.class);
-                    PrayerTime prayerTime = new PrayerTime(prayerTimeDTO);
+                    PrayerTimeDTO[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTimeDTO[].class);
+                    PrayerTime prayerTime = new PrayerTime(prayerTimeDTO[0]);
                     createNofication(prayerTime, context);
 
                 } catch (JSONException e) {
