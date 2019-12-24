@@ -2,6 +2,7 @@ package id.ac.ui.cs.mobileprogramming.hanifa.odoj;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -9,14 +10,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.connectivity.ConnectionHelper;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
-<<<<<<< Updated upstream
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionManager;
-=======
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionHelper;
->>>>>>> Stashed changes
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionRationale;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission.PermissionHelper;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,12 +48,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerReceiver() {
-        BroadcastReceiver br = new PrayerNotifReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_DATE_CHANGED);
-        this.registerReceiver(br, filter);
+        ConnectionHelper connectionHelper = new ConnectionHelper(this);
+        connectionHelper.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
 
-        this.registerReceiver(new NotificationPublisher(), new IntentFilter());
+                    Toast.makeText(getApplicationContext(), "Connected to internet!", Toast.LENGTH_SHORT).show();
+
+                    BroadcastReceiver br = new PrayerNotifReceiver();
+                    IntentFilter filter = new IntentFilter();
+                    filter.addAction(Intent.ACTION_DATE_CHANGED);
+                    getApplicationContext().registerReceiver(br, filter);
+
+                    getApplicationContext().registerReceiver(new NotificationPublisher(), new IntentFilter());
+                } else {
+                    Toast.makeText(getApplicationContext(), "WARNING! You need to connect to internet to get some feature", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override

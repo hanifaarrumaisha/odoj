@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils;
+package id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;

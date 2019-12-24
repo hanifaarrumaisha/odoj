@@ -16,12 +16,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PrayerTime;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PrayerTimeDTO;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.ConnectionHelper;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.connectivity.ConnectionHelper;
 
 public class PrayerNotifReceiver extends BroadcastReceiver {
     private static final String TAG = "DateChangeReceiver";
@@ -35,7 +33,6 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         testReceiver(context, intent);
 //        TODO CHECK CONNECTION
-        ConnectionHelper connectionHelper = new ConnectionHelper(context);
         AsyncRequest asyncRequest = new AsyncRequest(context);
         asyncRequest.execute("");
     }
