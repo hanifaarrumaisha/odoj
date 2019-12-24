@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("RATIONAL");
                 PermissionRationale permissionRationale = new PermissionRationale(this, Manifest.permission.READ_CALENDAR);
                 runOnUiThread(permissionRationale);
-                permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
             } else {
                 // Check Permissions Now
                 permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
@@ -66,9 +65,7 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(new NotificationPublisher(), new IntentFilter());
     }
 
-
     public AlertDialog.Builder showRationaleDialog(final String permission) {
-
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         switch (permission){
