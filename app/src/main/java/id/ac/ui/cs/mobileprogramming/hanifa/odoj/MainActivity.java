@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionManager;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_CALENDAR)) {
                 System.out.println("RATIONAL");
-                showRationaleDialog(Manifest.permission.READ_CALENDAR).create();
-                permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
+                PermissionRationale permissionRationale = new PermissionRationale(this, Manifest.permission.READ_CALENDAR);
+                runOnUiThread(permissionRationale);
             } else {
                 // Check Permissions Now
                 permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
@@ -62,25 +63,6 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(br, filter);
 
         this.registerReceiver(new NotificationPublisher(), new IntentFilter());
-    }
-
-
-    public AlertDialog.Builder showRationaleDialog(final String permission) {
-
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        switch (permission){
-            case Manifest.permission.READ_CALENDAR:
-                builder.setMessage(R.string.dialog_rationale_read_calendar)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                return;
-                            }
-                        });
-                // Create the AlertDialog object and return it
-                return builder;
-        }
-        return null;
     }
 
     @Override

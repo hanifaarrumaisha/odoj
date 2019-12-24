@@ -76,7 +76,6 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
                     System.out.println("REQUEST API");
                     System.out.println(prayerTime.getDhuhr());
                     createNofication(prayerTime, context);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -87,7 +86,6 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
             }});
         rq.add(jsonObjectRequest);
     }
-
 
     private void createNofication(PrayerTime prayerTime, Context context) {
         PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
