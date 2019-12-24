@@ -27,7 +27,7 @@ public class PermissionRationale implements Runnable {
                 builder.setMessage(R.string.dialog_rationale_read_calendar)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                PermissionManager permissionManager = new PermissionManager((Activity) context, Manifest.permission.READ_CALENDAR);
+                                PermissionHelper permissionManager = new PermissionHelper((Activity) context, Manifest.permission.READ_CALENDAR);
                                 permissionManager.requestPermissions((Activity) context, Manifest.permission.READ_CALENDAR);
                                 return;
                             }

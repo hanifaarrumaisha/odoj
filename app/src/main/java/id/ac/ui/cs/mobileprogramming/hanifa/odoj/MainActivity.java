@@ -1,29 +1,21 @@
 package id.ac.ui.cs.mobileprogramming.hanifa.odoj;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
+<<<<<<< Updated upstream
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionManager;
+=======
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionHelper;
+>>>>>>> Stashed changes
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         registerReceiver();
 
-        PermissionManager permissionManager = new PermissionManager(this, Manifest.permission.READ_CALENDAR);
+        PermissionHelper permissionManager = new PermissionHelper(this, Manifest.permission.READ_CALENDAR);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {

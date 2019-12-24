@@ -10,12 +10,12 @@ import androidx.core.app.ActivityCompat;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.R;
 
-public class PermissionManager {
+public class PermissionHelper {
     Activity activity;
     String PermissionType;
     private static final int REQUEST_READ_CALENDAR = 200;
 
-    public PermissionManager(Activity activity, String PermissionType){
+    public PermissionHelper(Activity activity, String PermissionType){
         activity = activity;
     }
 
