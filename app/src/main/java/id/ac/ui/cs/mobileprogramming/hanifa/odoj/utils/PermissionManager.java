@@ -25,5 +25,4 @@ public class PermissionManager {
                 REQUEST_READ_CALENDAR);
     }
 
-
 }

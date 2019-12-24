@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionManager;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_CALENDAR)) {
                 System.out.println("RATIONAL");
-                showRationaleDialog(Manifest.permission.READ_CALENDAR).create();
+                PermissionRationale permissionRationale = new PermissionRationale(this, Manifest.permission.READ_CALENDAR);
+                runOnUiThread(permissionRationale);
                 permissionManager.requestPermissions(this, Manifest.permission.READ_CALENDAR);
             } else {
                 // Check Permissions Now
