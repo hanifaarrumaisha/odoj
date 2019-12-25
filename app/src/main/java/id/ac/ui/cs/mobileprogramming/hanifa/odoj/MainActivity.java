@@ -21,6 +21,13 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
 
+    static {
+        System.loadLibrary("native-lib");
+    }
+    static {
+        System.loadLibrary("addition-lib");
+    }
+
     private static final int REQUEST_READ_CALENDAR = 200;
     private BroadcastReceiver prayerNotifReceiver;
     private NotificationPublisher notificationPublisher;
@@ -29,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        System.out.println("FROM JNI");
+        System.out.println(additionJNI(2,5));
 
         registerReceiver();
 
@@ -73,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     @Override
@@ -93,5 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public native String stringFromJNI();
+    public native int additionJNI(int left, int right);
 }
 

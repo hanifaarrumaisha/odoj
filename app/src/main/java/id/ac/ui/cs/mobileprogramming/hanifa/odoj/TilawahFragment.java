@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PageTilawah;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.Tilawah;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
@@ -41,6 +43,9 @@ public class TilawahFragment extends Fragment {
 
     @BindView(R.id.saveButton)
     Button saveButton;
+
+    @BindView(R.id.totalPageInput)
+    EditText totalPageInput;
 
     AsyncStopwatch asyncStopwatch;
 
@@ -91,7 +96,7 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Tilawah tilawah = new Tilawah(getDateTime(),12,23);
+                Tilawah tilawah = new Tilawah(getDateTime(),Integer.parseInt(totalPageInput.getText().toString()),new PageTilawah(1,1,"dummy",1));
                 mViewModel.insert(tilawah);
             }
         });

@@ -11,7 +11,7 @@ import java.sql.Date;
 @Entity(tableName = "tilawah")
 @TypeConverters({DateConverter.class})
 public class Tilawah {
-    public Tilawah(@NonNull Date tanggal, Integer jmlHalaman, Integer hlmTerakhir) {
+    public Tilawah(@NonNull Date tanggal, Integer jmlHalaman, PageTilawah hlmTerakhir) {
         this.id = id;
         this.tanggal = tanggal;
         this.jmlHalaman = jmlHalaman;
@@ -29,7 +29,8 @@ public class Tilawah {
     private Integer jmlHalaman;
 
     @NonNull
-    private Integer hlmTerakhir;
+    @ForeignKey(entity = PageTilawah.class, parentColumns = "id", childColumns = "pageId")
+    private PageTilawah hlmTerakhir;
 
     public int getId() {
         return id;
@@ -58,11 +59,11 @@ public class Tilawah {
     }
 
     @NonNull
-    public Integer getHlmTerakhir() {
+    public PageTilawah getHlmTerakhir() {
         return hlmTerakhir;
     }
 
-    public void setHlmTerakhir(@NonNull Integer hlmTerakhir) {
+    public void setHlmTerakhir(@NonNull PageTilawah hlmTerakhir) {
         this.hlmTerakhir = hlmTerakhir;
     }
 }
