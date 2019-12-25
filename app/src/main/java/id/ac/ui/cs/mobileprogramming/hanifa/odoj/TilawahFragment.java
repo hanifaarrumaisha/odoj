@@ -91,7 +91,7 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Tilawah tilawah = new Tilawah(getDateTime(),12,23,Long.getLong("1"));
+                Tilawah tilawah = new Tilawah(getDateTime(),12,23);
                 mViewModel.insert(tilawah);
             }
         });

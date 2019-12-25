@@ -10,16 +10,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.connectivity.ConnectionHelper;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.NotificationPublisher;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.openGL.OpenGLView;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission.PermissionHelper;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.permission.PermissionRationale;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_READ_CALENDAR = 200;
+    private BroadcastReceiver prayerNotifReceiver;
+    private NotificationPublisher notificationPublisher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(), "Connected to internet!", Toast.LENGTH_SHORT).show();
 
-                    BroadcastReceiver br = new PrayerNotifReceiver();
+                    prayerNotifReceiver = new PrayerNotifReceiver();
                     IntentFilter filter = new IntentFilter();
-                    filter.addAction(Intent.ACTION_DATE_CHANGED);
-                    getApplicationContext().registerReceiver(br, filter);
 
-                    getApplicationContext().registerReceiver(new NotificationPublisher(), new IntentFilter());
+                    filter.addAction(Intent.ACTION_DATE_CHANGED);
+                    getApplicationContext().registerReceiver(prayerNotifReceiver, filter);
+
+                    notificationPublisher = new NotificationPublisher();
+                    getApplicationContext().registerReceiver(notificationPublisher, new IntentFilter());
                 } else {
                     Toast.makeText(getApplicationContext(), "WARNING! You need to connect to internet to get some feature", Toast.LENGTH_SHORT).show();
                 }
@@ -86,5 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
+
 }
 

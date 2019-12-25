@@ -11,7 +11,7 @@ import java.sql.Date;
 @Entity(tableName = "tilawah")
 @TypeConverters({DateConverter.class})
 public class Tilawah {
-    public Tilawah(@NonNull Date tanggal, Integer jmlHalaman, Integer hlmTerakhir, Long accountId) {
+    public Tilawah(@NonNull Date tanggal, Integer jmlHalaman, Integer hlmTerakhir) {
         this.id = id;
         this.tanggal = tanggal;
         this.jmlHalaman = jmlHalaman;
