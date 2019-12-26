@@ -12,11 +12,11 @@ public class PrayerTime {
     private Calendar maghrib = Calendar.getInstance();
     private Calendar isha = Calendar.getInstance();
 
-    public PrayerTime(PrayerTimeDTO DTO) {
+    public PrayerTime(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime DTO) {
         this.parseData(DTO);
     }
 
-    private void parseData(PrayerTimeDTO dto) {
+    private void parseData(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime dto) {
         HashMap<Integer, Integer> time = parseTime(dto.getFajr());
         setTime(fajr, time);
         time = parseTime(dto.getShurooq());

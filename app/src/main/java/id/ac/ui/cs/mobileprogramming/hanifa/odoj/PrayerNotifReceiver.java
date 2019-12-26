@@ -6,26 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dao.TilawahDao;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTimeDTO;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.APICall;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
 
 public class PrayerNotifReceiver extends BroadcastReceiver {

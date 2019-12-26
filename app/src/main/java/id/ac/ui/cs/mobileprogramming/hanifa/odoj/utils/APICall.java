@@ -13,8 +13,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTimeDTO;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
 
 public class APICall {
@@ -39,8 +38,8 @@ public class APICall {
             public void onResponse(JSONObject response) {
                 try {
                     Gson gson = new Gson();
-                    PrayerTimeDTO[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTimeDTO[].class);
-                    PrayerTime prayerTime = new PrayerTime(prayerTimeDTO[0]);
+                    PrayerTime[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTime[].class);
+                    id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime prayerTime = new id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime(prayerTimeDTO[0]);
                     System.out.println("REQUEST API");
                     System.out.println(prayerTime.getDhuhr());
                     createNofication(prayerTime, context);
@@ -79,7 +78,7 @@ public class APICall {
         rq.add(jsonObjectRequest);
     }
 
-    private void createNofication(PrayerTime prayerTime, Context context) {
+    private void createNofication(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime prayerTime, Context context) {
         PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
         PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);
         PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);

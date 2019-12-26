@@ -1,6 +1,6 @@
-package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity;
+package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto;
 
-public class PrayerTimeDTO {
+public class PrayerTime {
     private String date_for;
     private String fajr;
     private String shurooq;
