@@ -56,6 +56,29 @@ public class APICall {
         rq.add(jsonObjectRequest);
     }
 
+    public void requestQuranPage(int page){
+        String url = "http://api.alquran.cloud/v1/page/"+String.valueOf(page)+"/en.asad";
+        RequestQueue rq = Volley.newRequestQueue(context);
+        rq.start();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,(JSONObject) null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String quran = response.getString("data");
+                    System.out.println("REQUEST API QURAN");
+                    System.out.println(quran);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }},  new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Can't retrieve API", Toast.LENGTH_LONG).show();
+            }});
+        rq.add(jsonObjectRequest);
+    }
+
     private void createNofication(PrayerTime prayerTime, Context context) {
         PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
         PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);

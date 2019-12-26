@@ -27,6 +27,7 @@ import butterknife.BindView;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.Converter;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import butterknife.ButterKnife;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.APICall;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
 
@@ -151,7 +152,8 @@ public class TilawahFragment extends Fragment {
                         new Handler().post(new Runnable() {
                             @Override
                             public void run() {
-
+                                APICall apiCall = new APICall(getContext());
+                                apiCall.requestQuranPage(5);
                             }
                         });
                         System.out.println("Yesterday is not null");
