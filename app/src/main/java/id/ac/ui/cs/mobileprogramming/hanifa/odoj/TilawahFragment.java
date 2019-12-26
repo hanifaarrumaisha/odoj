@@ -37,6 +37,12 @@ public class TilawahFragment extends Fragment {
     @BindView(R.id.stopButton)
     Button stopButton;
 
+    @BindView(R.id.tilawah_today_value)
+    TextView tilawahTodayText;
+
+    @BindView(R.id.pge_tilawah_value)
+    TextView pageTodayText;
+
     @BindView(R.id.resumeButton)
     Button resumeButton;
 
@@ -69,12 +75,6 @@ public class TilawahFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
-        mViewModel.getTodayTilawah().observe(this, new Observer<Tilawah>() {
-            @Override
-            public void onChanged(Tilawah tilawah) {
-                System.out.println("CHANGED TODAY");
-            }
-        });
         mViewModel.getAllTilawah().observe(this, new Observer<List<Tilawah>>() {
             @Override
             public void onChanged(List<Tilawah> tilawahs) {
@@ -82,6 +82,18 @@ public class TilawahFragment extends Fragment {
                 System.out.println(tilawahs.size());
                 for (int i=0;i<tilawahs.size();i++){
                     System.out.println(tilawahs.get(i));
+                }
+            }
+        });
+
+        mViewModel.getTodayTilawah().observe(this, new Observer<Tilawah>() {
+            @Override
+            public void onChanged(Tilawah tilawah) {
+                System.out.println("CHANGED TODAY");
+                if (tilawah != null){
+                    String text = "QS."+tilawah.getSurah()+":"+String.valueOf(tilawah.getAyah())+"/"+String.valueOf(tilawah.getJuz());
+                    tilawahTodayText.setText(text);
+                    pageTodayText.setText(String.valueOf(tilawah.getJmlHalaman()));
                 }
             }
         });
@@ -117,7 +129,9 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Tilawah tilawah = new Tilawah(Utils.getDateTime(),Integer.parseInt(totalPageInput.getText().toString()));
+//                TODO call JNI
+                int totalPage = 0+Integer.parseInt(totalPageInput.getText().toString());
+                Tilawah tilawah = new Tilawah(Utils.getDateTime(),totalPage,"",0,0,0);
                 mViewModel.insert(tilawah);
                 System.out.println("TES");
             }

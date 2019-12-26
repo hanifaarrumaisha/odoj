@@ -9,4 +9,9 @@ public class Utils {
         return new Date(Calendar.getInstance().getTimeInMillis());
     }
 
+    public static java.sql.Date getYesterday(){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DATE, cal.get(Calendar.DATE)-1);
+        return new Date(cal.getTimeInMillis());
+    }
 }

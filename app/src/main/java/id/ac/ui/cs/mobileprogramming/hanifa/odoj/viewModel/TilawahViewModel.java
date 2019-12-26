@@ -14,12 +14,14 @@ public class TilawahViewModel extends AndroidViewModel {
     private TilawahRepository tilawahRepository;
     private LiveData<List<Tilawah>> mAllTilawah;
     private LiveData<Tilawah> mTodayTilawah;
+    private LiveData<Tilawah> mYesterdayTilawah;
 
     public TilawahViewModel(Application application){
         super(application);
         tilawahRepository = new TilawahRepository(application);
         mAllTilawah = tilawahRepository.getAllTilawah();
         mTodayTilawah = tilawahRepository.getTodayTilawah();
+        mYesterdayTilawah = tilawahRepository.getYesterdayTilawah();
     }
 
     public void insert(Tilawah tilawah){
@@ -33,4 +35,8 @@ public class TilawahViewModel extends AndroidViewModel {
     public LiveData<Tilawah> getTodayTilawah(){
         return mTodayTilawah;
     };
+
+    public LiveData<Tilawah> getYesterdayTilawah(){
+        return mYesterdayTilawah;
+    }
 }

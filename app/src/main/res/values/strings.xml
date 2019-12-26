@@ -6,4 +6,7 @@
     <string name="ok">OK</string>
     <string name="dialog_rationale_read_calendar">This apps need to read your calendar for create notification when you are busy, based on task on your calendar</string>
     <string name="save_button">Save</string>
+    <string name="last_tilawah_text">Your Last Tilawah Today: </string>
+    <string name="page_tilawah_text">You\'ve tilawah </string>
+    <string name="pages">pages</string>
 </resources>

@@ -1,6 +1,7 @@
 package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -18,6 +19,12 @@ public interface TilawahDao {
 
     @Query(value = "SELECT * FROM TILAWAH WHERE tilawah.tanggal=:date")
     LiveData<Tilawah> getByDate(Date date);
+
+    @Query("SELECT * FROM TILAWAH ORDER BY tanggal LIMIT 1")
+    LiveData<Tilawah> getToday();
+
+    @Query("SELECT * FROM TILAWAH ORDER BY tanggal LIMIT 1 OFFSET 1")
+    LiveData<Tilawah> getYesterday();
 
     @Query(value= "SELECT * FROM TiLAWAH ORDER BY tanggal")
     LiveData<List<Tilawah>> getAllTilawahOrderByDate();

@@ -13,7 +13,7 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dao.TilawahDao;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 
-@Database(entities = {Tilawah.class}, version = 2, exportSchema = false)
+@Database(entities = {Tilawah.class}, version = 3, exportSchema = false)
 @TypeConverters({Converter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TilawahDao tilawahDao();
@@ -55,7 +55,7 @@ public abstract class AppDatabase extends RoomDatabase {
         protected Void doInBackground(final Void... params) {
             System.out.println("POPULATE DATABASE");
             mAsyncTilawahDao.deleteAll();
-            mAsyncTilawahDao.insert(new Tilawah(Utils.getDateTime(), 0));
+            mAsyncTilawahDao.insert(new Tilawah(Utils.getDateTime(), 0,"",0,0,0));
             return null;
         }
     }

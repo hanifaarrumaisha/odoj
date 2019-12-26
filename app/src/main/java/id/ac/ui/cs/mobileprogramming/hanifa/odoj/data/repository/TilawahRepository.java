@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import java.sql.Date;
 import java.util.List;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.AppDatabase;
@@ -30,11 +29,16 @@ public class TilawahRepository {
     }
 
     public LiveData<Tilawah> getTodayTilawah(){
-        return tilawahDao.getByDate(Utils.getDateTime());
+        System.out.println(Utils.getDateTime().toString());
+        return tilawahDao.getToday();
     }
 
     public LiveData<List<Tilawah>> getAllTilawah() {
         return mAllTilawah;
+    }
+
+    public LiveData<Tilawah> getYesterdayTilawah() {
+        return tilawahDao.getToday();
     }
 
     private static class insertAsyncTask extends AsyncTask<Tilawah, Void, LiveData<Tilawah>> {
@@ -51,6 +55,10 @@ public class TilawahRepository {
             System.out.println("COBA INSERT");
             System.out.println(params[0].getTanggal().toString());
             mAsyncTaskDao.insert(params[0]);
+            System.out.println("DATE");
+            System.out.println(mAsyncTaskDao.getByDate(params[0].getTanggal()));
+            System.out.println("TODAY");
+            System.out.println(mAsyncTaskDao.getToday());
             return mAsyncTaskDao.getByDate(params[0].getTanggal());
         }
     }
