@@ -91,48 +91,22 @@ public class TilawahFragment extends Fragment {
         View view = inflater.inflate(R.layout.tilawah_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        System.out.println("FROM JNI");
-        System.out.println(additionJNI(2,5));
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
-        mViewModel.getAllTilawah().observe(this, new Observer<List<Tilawah>>() {
-            @Override
-            public void onChanged(List<Tilawah> tilawahs) {
-                System.out.println("CHANGED ALL]");
-                System.out.println(tilawahs.size());
-                for (int i=0;i<tilawahs.size();i++){
-                    System.out.println(tilawahs.get(i));
-                }
-            }
-        });
 
-        mViewModel.getTodayTilawah().observe(this, new Observer<Tilawah>() {
-            @Override
-            public void onChanged(Tilawah tilawah) {
-                System.out.println("CHANGED TODAY");
-                if (tilawah != null){
-                    setTodayTilawah(tilawah);
-                    tilawahTodayText.setText(tilawah.toString());
-                    pageTodayText.setText(String.valueOf(tilawah.getJmlHalaman()));
-                }
-            }
-        });
+        setUpViewModel();
 
-        mViewModel.getYesterdayTilawah().observe(this, new Observer<Tilawah>() {
-            @Override
-            public void onChanged(Tilawah tilawah) {
-                if (tilawah != null){
-                    setYesterdayTilawah(tilawah);
-                    System.out.println(getYesterdayTilawah().getJmlHalaman());
-                }
-            }
-        });
+        setUpListenerButton();
 
+        //TODO
+        //Koneksi AIDL ke aplikasi alquran ketika klik start. terus jalanin quran itu.
+    }
+
+    private void setUpListenerButton() {
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -179,11 +153,18 @@ public class TilawahFragment extends Fragment {
                 }
                 Tilawah tilawah = new Tilawah(Utils.getDateTime(),totalPage,"",0,0,0);
                 mViewModel.insert(tilawah);
+                totalPageInput.setText(0);
                 System.out.println("TES");
             }
         });
-        //TODO
-        //Koneksi AIDL ke aplikasi alquran ketika klik start. terus jalanin quran itu.
+
+    }
+
+    private void setUpViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
+        mViewModel.getAllTilawah().observe(this, new AllTilawahObserver());
+        mViewModel.getTodayTilawah().observe(this, new TodayTilawahObserver());
+        mViewModel.getYesterdayTilawah().observe(this, new YesterdayTilawahObserver());
     }
 
     private class AsyncStopwatch extends AsyncTask<Integer, String, Integer> {
@@ -210,4 +191,37 @@ public class TilawahFragment extends Fragment {
     }
 
     public native int additionJNI(int left, int right);
+
+    private class TodayTilawahObserver implements Observer<Tilawah> {
+        @Override
+        public void onChanged(Tilawah tilawah) {
+            System.out.println("CHANGED TODAY");
+            if (tilawah != null){
+                setTodayTilawah(tilawah);
+                tilawahTodayText.setText(tilawah.toString());
+                pageTodayText.setText(String.valueOf(tilawah.getJmlHalaman()));
+            }
+        }
+    }
+
+    private class AllTilawahObserver implements Observer<List<Tilawah>> {
+        @Override
+        public void onChanged(List<Tilawah> tilawahs) {
+            System.out.println("CHANGED ALL]");
+            System.out.println(tilawahs.size());
+            for (int i = 0; i < tilawahs.size(); i++) {
+                System.out.println(tilawahs.get(i));
+            }
+        }
+    }
+
+    private class YesterdayTilawahObserver implements Observer<Tilawah> {
+        @Override
+        public void onChanged(Tilawah tilawah) {
+            if (tilawah != null){
+                setYesterdayTilawah(tilawah);
+                System.out.println(getYesterdayTilawah().getJmlHalaman());
+            }
+        }
+    }
 }
