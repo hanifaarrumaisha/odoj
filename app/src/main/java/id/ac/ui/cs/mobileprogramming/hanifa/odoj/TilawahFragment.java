@@ -57,7 +57,15 @@ public class TilawahFragment extends Fragment {
 
     AsyncStopwatch asyncStopwatch;
 
-    Tilawah todayTilawah;
+    public Tilawah getYesterdayTilawah() {
+        return yesterdayTilawah;
+    }
+
+    public void setYesterdayTilawah(Tilawah yesterdayTilawah) {
+        this.yesterdayTilawah = yesterdayTilawah;
+    }
+
+    private Tilawah yesterdayTilawah;
 
     public static TilawahFragment newInstance() {
         return new TilawahFragment();
@@ -91,9 +99,18 @@ public class TilawahFragment extends Fragment {
             public void onChanged(Tilawah tilawah) {
                 System.out.println("CHANGED TODAY");
                 if (tilawah != null){
-                    String text = "QS."+tilawah.getSurah()+":"+String.valueOf(tilawah.getAyah())+"/"+String.valueOf(tilawah.getJuz());
-                    tilawahTodayText.setText(text);
+                    tilawahTodayText.setText(tilawah.toString());
                     pageTodayText.setText(String.valueOf(tilawah.getJmlHalaman()));
+                }
+            }
+        });
+
+        mViewModel.getYesterdayTilawah().observe(this, new Observer<Tilawah>() {
+            @Override
+            public void onChanged(Tilawah tilawah) {
+                if (tilawah != null){
+                    setYesterdayTilawah(tilawah);
+                    System.out.println(getYesterdayTilawah().getJmlHalaman());
                 }
             }
         });

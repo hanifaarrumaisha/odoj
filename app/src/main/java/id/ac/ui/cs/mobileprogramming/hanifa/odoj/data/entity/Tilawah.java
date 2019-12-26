@@ -50,7 +50,7 @@ public class Tilawah {
     @NonNull
     @Override
     public String toString() {
-        return "tanggal: "+tanggal.toString()+" jmlHalaman: "+String.valueOf(jmlHalaman);
+        return "QS."+getSurah()+":"+String.valueOf(getAyah())+"/"+String.valueOf(getJuz());
     }
 
     public String getSurah() {

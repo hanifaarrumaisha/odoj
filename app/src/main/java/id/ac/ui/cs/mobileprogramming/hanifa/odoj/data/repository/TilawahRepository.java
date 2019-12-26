@@ -38,7 +38,7 @@ public class TilawahRepository {
     }
 
     public LiveData<Tilawah> getYesterdayTilawah() {
-        return tilawahDao.getToday();
+        return tilawahDao.getYesterday();
     }
 
     private static class insertAsyncTask extends AsyncTask<Tilawah, Void, LiveData<Tilawah>> {

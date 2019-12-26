@@ -20,13 +20,13 @@ public interface TilawahDao {
     @Query(value = "SELECT * FROM TILAWAH WHERE tilawah.tanggal=:date")
     LiveData<Tilawah> getByDate(Date date);
 
-    @Query("SELECT * FROM TILAWAH ORDER BY tanggal LIMIT 1")
+    @Query("SELECT * FROM TILAWAH ORDER BY tanggal DESC LIMIT 1")
     LiveData<Tilawah> getToday();
 
-    @Query("SELECT * FROM TILAWAH ORDER BY tanggal LIMIT 1 OFFSET 1")
+    @Query("SELECT * FROM TILAWAH ORDER BY tanggal DESC LIMIT 1 OFFSET 1")
     LiveData<Tilawah> getYesterday();
 
-    @Query(value= "SELECT * FROM TiLAWAH ORDER BY tanggal")
+    @Query(value= "SELECT * FROM TiLAWAH ORDER BY tanggal DESC")
     LiveData<List<Tilawah>> getAllTilawahOrderByDate();
 
     @Query("DELETE FROM tilawah")
