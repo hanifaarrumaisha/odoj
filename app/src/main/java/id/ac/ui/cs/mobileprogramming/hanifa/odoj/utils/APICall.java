@@ -9,11 +9,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Quran;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
 
 public class APICall {
@@ -55,17 +57,16 @@ public class APICall {
         rq.add(jsonObjectRequest);
     }
 
-    public void requestQuranPage(int page){
+    public void requestQuranPage(int page, final VolleyCallback callback){
         String url = "http://api.alquran.cloud/v1/page/"+String.valueOf(page)+"/en.asad";
         RequestQueue rq = Volley.newRequestQueue(context);
         rq.start();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,(JSONObject) null, new Response.Listener<JSONObject>() {
+            Quran quranDTO;
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    String quran = response.getString("data");
-                    System.out.println("REQUEST API QURAN");
-                    System.out.println(quran);
+                    callback.onSuccess(response.getString("data"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

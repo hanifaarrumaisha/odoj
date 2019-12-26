@@ -22,7 +22,7 @@ class Ayah {
     @Expose
     private int hizbQuarter;
     @Expose
-    private int sajda;
+    private boolean sajda;
 
     public int getNumber() {
         return number;
@@ -96,11 +96,11 @@ class Ayah {
         this.hizbQuarter = hizbQuarter;
     }
 
-    public int getSajda() {
+    public boolean isSajda() {
         return sajda;
     }
 
-    public void setSajda(int sajda) {
+    public void setSajda(boolean sajda) {
         this.sajda = sajda;
     }
 }

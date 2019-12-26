@@ -19,16 +19,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.Converter;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Quran;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.APICall;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.VolleyCallback;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -153,9 +158,21 @@ public class TilawahFragment extends Fragment {
                             @Override
                             public void run() {
                                 APICall apiCall = new APICall(getContext());
-                                apiCall.requestQuranPage(5);
+                                apiCall.requestQuranPage(5, new VolleyCallback() {
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        Gson gson = new GsonBuilder()
+                                                .excludeFieldsWithoutExposeAnnotation()
+                                                .create();
+                                        Quran quranDTO = gson.fromJson(result, Quran.class);
+                                        System.out.println("REQUEST API QURAN");
+                                        System.out.println(quranDTO.getAyahs());
+                                    }
+                                });
                             }
                         });
+
+
                         System.out.println("Yesterday is not null");
                     }else{
                         System.out.println("Yesterday null");
