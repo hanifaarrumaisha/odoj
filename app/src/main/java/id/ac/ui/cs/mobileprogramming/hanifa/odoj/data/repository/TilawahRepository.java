@@ -15,13 +15,11 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 public class TilawahRepository {
     private TilawahDao tilawahDao;
     private LiveData<List<Tilawah>> mAllTilawah;
-    private LiveData<Tilawah> mTodayTilawah;
 
     public TilawahRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         tilawahDao = db.tilawahDao();
         mAllTilawah = tilawahDao.getAllTilawahOrderByDate();
-        mTodayTilawah = tilawahDao.getByDate(Utils.getDateTime());
     }
 
     public void insert(Tilawah tilawah){

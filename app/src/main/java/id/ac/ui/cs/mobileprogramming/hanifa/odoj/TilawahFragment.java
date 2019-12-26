@@ -28,6 +28,10 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
 
 public class TilawahFragment extends Fragment {
 
+    static {
+        System.loadLibrary("addition-lib");
+    }
+
     private TilawahViewModel mViewModel;
     private Integer seconds;
 
@@ -57,6 +61,17 @@ public class TilawahFragment extends Fragment {
 
     AsyncStopwatch asyncStopwatch;
 
+    private Tilawah yesterdayTilawah;
+    private Tilawah todayTilawah;
+
+    public Tilawah getTodayTilawah() {
+        return todayTilawah;
+    }
+
+    public void setTodayTilawah(Tilawah todayTilawah) {
+        this.todayTilawah = todayTilawah;
+    }
+
     public Tilawah getYesterdayTilawah() {
         return yesterdayTilawah;
     }
@@ -65,7 +80,6 @@ public class TilawahFragment extends Fragment {
         this.yesterdayTilawah = yesterdayTilawah;
     }
 
-    private Tilawah yesterdayTilawah;
 
     public static TilawahFragment newInstance() {
         return new TilawahFragment();
@@ -76,6 +90,9 @@ public class TilawahFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tilawah_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        System.out.println("FROM JNI");
+        System.out.println(additionJNI(2,5));
         return view;
     }
 
@@ -99,6 +116,7 @@ public class TilawahFragment extends Fragment {
             public void onChanged(Tilawah tilawah) {
                 System.out.println("CHANGED TODAY");
                 if (tilawah != null){
+                    setTodayTilawah(tilawah);
                     tilawahTodayText.setText(tilawah.toString());
                     pageTodayText.setText(String.valueOf(tilawah.getJmlHalaman()));
                 }
@@ -146,8 +164,19 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-//                TODO call JNI
-                int totalPage = 0+Integer.parseInt(totalPageInput.getText().toString());
+                int totalPage=0;
+                if (todayTilawah != null){
+                    if (yesterdayTilawah != null){
+//                        TODO get data from yesterday
+                        System.out.println("Yesterday is not null");
+                    }else{
+                        System.out.println("Yesterday null");
+                    }
+
+                    totalPage = additionJNI( todayTilawah.getJmlHalaman(),Integer.parseInt(totalPageInput.getText().toString()));
+                }else{
+                    totalPage = additionJNI( 0 ,Integer.parseInt(totalPageInput.getText().toString()));
+                }
                 Tilawah tilawah = new Tilawah(Utils.getDateTime(),totalPage,"",0,0,0);
                 mViewModel.insert(tilawah);
                 System.out.println("TES");
@@ -180,4 +209,5 @@ public class TilawahFragment extends Fragment {
         }
     }
 
+    public native int additionJNI(int left, int right);
 }

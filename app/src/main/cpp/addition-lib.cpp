@@ -6,7 +6,7 @@
 #include <iostream>
 
 extern "C" JNIEXPORT jint JNICALL
-Java_id_ac_ui_cs_mobileprogramming_hanifa_odoj_MainActivity_additionJNI(JNIEnv* env,
+Java_id_ac_ui_cs_mobileprogramming_hanifa_odoj_TilawahFragment_additionJNI(JNIEnv* env,
 jobject /* this */, jint left, jint right){
     jint result;
     result = left + right;
