@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity;
+package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity;
 
 import java.util.Calendar;
 import java.util.HashMap;

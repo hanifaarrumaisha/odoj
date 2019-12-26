@@ -7,21 +7,30 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.Tilawah;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.repository.TilawahRepository;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.repository.TilawahRepository;
 
 public class TilawahViewModel extends AndroidViewModel {
     private TilawahRepository tilawahRepository;
     private LiveData<List<Tilawah>> mAllTilawah;
+    private LiveData<Tilawah> mTodayTilawah;
 
     public TilawahViewModel(Application application){
         super(application);
-        //TODO accountnya masih pake data dummy, harusnya ambil dari user saat ini
         tilawahRepository = new TilawahRepository(application);
         mAllTilawah = tilawahRepository.getAllTilawah();
+        mTodayTilawah = tilawahRepository.getTodayTilawah();
     }
 
     public void insert(Tilawah tilawah){
         tilawahRepository.insert(tilawah);
     }
+
+    public LiveData<List<Tilawah>> getAllTilawah() {
+        return mAllTilawah;
+    }
+
+    public LiveData<Tilawah> getTodayTilawah(){
+        return mTodayTilawah;
+    };
 }

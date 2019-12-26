@@ -12,17 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PageTilawah;
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.Tilawah;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.Converter;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import butterknife.ButterKnife;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
 
 public class TilawahFragment extends Fragment {
@@ -50,6 +51,8 @@ public class TilawahFragment extends Fragment {
 
     AsyncStopwatch asyncStopwatch;
 
+    Tilawah todayTilawah;
+
     public static TilawahFragment newInstance() {
         return new TilawahFragment();
     }
@@ -66,6 +69,23 @@ public class TilawahFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
+        mViewModel.getTodayTilawah().observe(this, new Observer<Tilawah>() {
+            @Override
+            public void onChanged(Tilawah tilawah) {
+                System.out.println("CHANGED TODAY");
+            }
+        });
+        mViewModel.getAllTilawah().observe(this, new Observer<List<Tilawah>>() {
+            @Override
+            public void onChanged(List<Tilawah> tilawahs) {
+                System.out.println("CHANGED ALL]");
+                System.out.println(tilawahs.size());
+                for (int i=0;i<tilawahs.size();i++){
+                    System.out.println(tilawahs.get(i));
+                }
+            }
+        });
+
         startButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -97,16 +117,13 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Tilawah tilawah = new Tilawah(getDateTime(),Integer.parseInt(totalPageInput.getText().toString()));
+                Tilawah tilawah = new Tilawah(Utils.getDateTime(),Integer.parseInt(totalPageInput.getText().toString()));
                 mViewModel.insert(tilawah);
+                System.out.println("TES");
             }
         });
         //TODO
         //Koneksi AIDL ke aplikasi alquran ketika klik start. terus jalanin quran itu.
-    }
-
-    private java.sql.Date getDateTime() {
-        return new Date(Calendar.getInstance().getTimeInMillis());
     }
 
     private class AsyncStopwatch extends AsyncTask<Integer, String, Integer> {
