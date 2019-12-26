@@ -1,8 +1,10 @@
 package id.ac.ui.cs.mobileprogramming.hanifa.odoj;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.Converter;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Ayah;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Quran;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Surah;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.APICall;
@@ -109,7 +113,6 @@ public class TilawahFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         setUpViewModel();
 
         setUpListenerButton();
@@ -150,42 +153,50 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                int totalPage=0;
+                int pageInput = Integer.parseInt(totalPageInput.getText().toString());
                 if (todayTilawah != null){
+                    int totalPage = todayTilawah.getJmlHalaman() + pageInput;
+                    int pageRequest = totalPage;
+
                     if (yesterdayTilawah != null){
-//                        TODO get data from yesterday
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                APICall apiCall = new APICall(getContext());
-                                apiCall.requestQuranPage(5, new VolleyCallback() {
-                                    @Override
-                                    public void onSuccess(String result) {
-                                        Gson gson = new GsonBuilder()
-                                                .excludeFieldsWithoutExposeAnnotation()
-                                                .create();
-                                        Quran quranDTO = gson.fromJson(result, Quran.class);
-                                        System.out.println("REQUEST API QURAN");
-                                        System.out.println(quranDTO.getAyahs());
-                                    }
-                                });
-                            }
-                        });
-
-
+                        pageRequest = additionJNI(yesterdayTilawah.getPage(), totalPage);
                         System.out.println("Yesterday is not null");
                     }else{
-                        System.out.println("Yesterday null");
+                        System.out.println("Yesterday is null");
                     }
 
-                    totalPage = additionJNI( todayTilawah.getJmlHalaman(),Integer.parseInt(totalPageInput.getText().toString()));
+                    int finalTotalPage = totalPage;
+                    int finalPageRequest = pageRequest;
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            APICall apiCall = new APICall(getContext());
+                            apiCall.requestQuranPage(finalPageRequest, new VolleyCallback() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    Gson gson = new GsonBuilder()
+                                            .excludeFieldsWithoutExposeAnnotation()
+                                            .create();
+                                    Quran quranDTO = gson.fromJson(result, Quran.class);
+                                    System.out.println("REQUEST API QURAN");
+                                    System.out.println(quranDTO.getAyahs());
+                                    Ayah lastAyah = quranDTO.getAyahs().get(quranDTO.getAyahs().size()-1);
+                                    Surah surah = lastAyah.getSurah();
+                                    Tilawah tilawah = new Tilawah(Utils.getDateTime(), finalTotalPage,surah.getEnglishName(),lastAyah.getJuz(),lastAyah.getNumberInSurah(),lastAyah.getPage());
+
+                                    mViewModel.insert(tilawah);
+                                }
+                            });
+                        }
+                    });
+
                 }else{
-                    totalPage = additionJNI( 0 ,Integer.parseInt(totalPageInput.getText().toString()));
+                    Tilawah tilawah = new Tilawah(Utils.getDateTime(),pageInput,"",0,0,0);
+                    mViewModel.insert(tilawah);
                 }
-                Tilawah tilawah = new Tilawah(Utils.getDateTime(),totalPage,"",0,0,0);
-                mViewModel.insert(tilawah);
-                totalPageInput.setText("");
                 System.out.println("TES");
+                totalPageInput.setText("");
                 Toast.makeText(getContext(), R.string.success_update, Toast.LENGTH_LONG).show();
             }
         });

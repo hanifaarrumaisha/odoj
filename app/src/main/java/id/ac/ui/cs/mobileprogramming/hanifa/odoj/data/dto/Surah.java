@@ -2,7 +2,7 @@ package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto;
 
 import com.google.gson.annotations.Expose;
 
-class Surah {
+public class Surah {
     @Expose
     private int number;
     @Expose

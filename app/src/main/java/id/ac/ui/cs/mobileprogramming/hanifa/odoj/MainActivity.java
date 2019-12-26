@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         registerReceiver();
 
         PermissionHelper permissionManager = new PermissionHelper(this, Manifest.permission.READ_CALENDAR);

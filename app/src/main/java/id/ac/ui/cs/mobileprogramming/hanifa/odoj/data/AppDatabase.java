@@ -54,8 +54,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             System.out.println("POPULATE DATABASE");
-            mAsyncTilawahDao.deleteAll();
-            mAsyncTilawahDao.insert(new Tilawah(Utils.getYesterday(), 20,"Baqoroh",1,80,20));
+            mAsyncTilawahDao.insert(new Tilawah(Utils.getYesterday(), 0,"",0,0,0));
             mAsyncTilawahDao.insert(new Tilawah(Utils.getDateTime(), 0,"",0,0,0));
             return null;
         }
