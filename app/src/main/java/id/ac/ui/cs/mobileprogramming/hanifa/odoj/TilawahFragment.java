@@ -14,9 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.entity.PageTilawah;
@@ -96,7 +97,7 @@ public class TilawahFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Tilawah tilawah = new Tilawah(getDateTime(),Integer.parseInt(totalPageInput.getText().toString()),new PageTilawah(1,1,"dummy",1));
+                Tilawah tilawah = new Tilawah(getDateTime(),Integer.parseInt(totalPageInput.getText().toString()));
                 mViewModel.insert(tilawah);
             }
         });
@@ -105,9 +106,7 @@ public class TilawahFragment extends Fragment {
     }
 
     private java.sql.Date getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        return java.sql.Date.valueOf(dateFormat.format(date));
+        return new Date(Calendar.getInstance().getTimeInMillis());
     }
 
     private class AsyncStopwatch extends AsyncTask<Integer, String, Integer> {
