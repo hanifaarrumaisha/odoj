@@ -2,12 +2,16 @@ package id.ac.ui.cs.mobileprogramming.hanifa.odoj;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +29,8 @@ import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.Tilawah;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.utils.Utils;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.viewModel.TilawahViewModel;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class TilawahFragment extends Fragment {
 
@@ -142,6 +148,12 @@ public class TilawahFragment extends Fragment {
                 if (todayTilawah != null){
                     if (yesterdayTilawah != null){
 //                        TODO get data from yesterday
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
                         System.out.println("Yesterday is not null");
                     }else{
                         System.out.println("Yesterday null");
@@ -153,11 +165,11 @@ public class TilawahFragment extends Fragment {
                 }
                 Tilawah tilawah = new Tilawah(Utils.getDateTime(),totalPage,"",0,0,0);
                 mViewModel.insert(tilawah);
-                totalPageInput.setText(0);
+                totalPageInput.setText("");
                 System.out.println("TES");
+                Toast.makeText(getContext(), R.string.success_update, Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     private void setUpViewModel() {

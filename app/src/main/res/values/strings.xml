@@ -9,4 +9,5 @@
     <string name="last_tilawah_text">Your Last Tilawah Today: </string>
     <string name="page_tilawah_text">You\'ve tilawah </string>
     <string name="pages">pages</string>
+    <string name="success_update">Tilawah saved!</string>
 </resources>
