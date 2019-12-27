@@ -15,7 +15,6 @@ public class OpenGLView extends GLSurfaceView {
         init();
     }
 
-
     private void init(){
         setEGLContextClientVersion(2);
         setPreserveEGLContextOnPause(true);

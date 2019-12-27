@@ -9,13 +9,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTimeDTO;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.Quran;
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime;
 import id.ac.ui.cs.mobileprogramming.hanifa.odoj.notification.PrayerNotification;
 
 public class APICall {
@@ -40,8 +40,8 @@ public class APICall {
             public void onResponse(JSONObject response) {
                 try {
                     Gson gson = new Gson();
-                    PrayerTime[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTime[].class);
-                    id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime prayerTime = new id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime(prayerTimeDTO[0]);
+                    PrayerTimeDTO[] prayerTimeDTO = gson.fromJson(response.getString("items"), PrayerTimeDTO[].class);
+                    PrayerTime prayerTime = new PrayerTime(prayerTimeDTO[0]);
                     System.out.println("REQUEST API");
                     System.out.println(prayerTime.getDhuhr());
                     createNofication(prayerTime, context);
@@ -55,6 +55,17 @@ public class APICall {
                 Toast.makeText(context, "Can't retrieve API", Toast.LENGTH_LONG).show();
             }});
         rq.add(jsonObjectRequest);
+    }
+
+    private void createNofication(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime prayerTime, Context context) {
+        PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
+        PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);
+        PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);
+        System.out.println("CEK PRAYER TIME NOTIF");
+        System.out.println(prayerTime.getIsha().getTime());
+        PrayerNotification notifMaghrib = new PrayerNotification(context, prayerTime.getMaghrib(), MAGHRIB);
+        System.out.println(prayerTime.getIsha().getTime());
+        PrayerNotification notifIsha = new PrayerNotification(context, prayerTime.getIsha(), ISHA);
     }
 
     public void requestQuranPage(int page, final VolleyCallback callback){
@@ -79,14 +90,4 @@ public class APICall {
         rq.add(jsonObjectRequest);
     }
 
-    private void createNofication(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity.PrayerTime prayerTime, Context context) {
-        PrayerNotification notifShurooq = new PrayerNotification(context, prayerTime.getShurooq(), SHUROOQ);
-        PrayerNotification notifDhuhr = new PrayerNotification(context, prayerTime.getDhuhr(), DHUHR);
-        PrayerNotification notifAsr = new PrayerNotification(context, prayerTime.getAsr(), ASR);
-        System.out.println("CEK PRAYER TIME NOTIF");
-        System.out.println(prayerTime.getIsha().getTime());
-        PrayerNotification notifMaghrib = new PrayerNotification(context, prayerTime.getMaghrib(), MAGHRIB);
-        System.out.println(prayerTime.getIsha().getTime());
-        PrayerNotification notifIsha = new PrayerNotification(context, prayerTime.getIsha(), ISHA);
-    }
 }

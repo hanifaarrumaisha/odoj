@@ -10,4 +10,6 @@
     <string name="page_tilawah_text">You\'ve tilawah </string>
     <string name="pages">pages</string>
     <string name="success_update">Tilawah saved!</string>
+    <string name="need_connection_warning">WARNING! You need to connect to internet to get some feature</string>
+    <string name="connected_internet_info">Connected to internet!</string>
 </resources>

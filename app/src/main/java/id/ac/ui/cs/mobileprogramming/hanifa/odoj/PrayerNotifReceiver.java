@@ -16,7 +16,6 @@ public class PrayerNotifReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         testReceiver(context, intent);
-//        TODO CHECK CONNECTION
         AsyncRequest asyncRequest = new AsyncRequest(context);
         asyncRequest.execute("");
     }

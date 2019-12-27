@@ -35,8 +35,6 @@ public class PermissionRationale implements Runnable {
                 // Create the AlertDialog object and return it
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-
         }
     }
 }

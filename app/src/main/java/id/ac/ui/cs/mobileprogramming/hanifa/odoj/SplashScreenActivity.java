@@ -16,8 +16,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (!splashLoaded) {
             setContentView(R.layout.activity_splash_screen);
 
@@ -53,7 +51,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        openGLView.onResume();
+        openGLView.onPause();
     }
 
 

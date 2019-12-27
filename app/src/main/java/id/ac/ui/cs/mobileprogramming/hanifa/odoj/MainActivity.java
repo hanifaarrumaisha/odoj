@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
 
-                    Toast.makeText(getApplicationContext(), "Connected to internet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.connected_internet_info, Toast.LENGTH_SHORT).show();
 
                     prayerNotifReceiver = new PrayerNotifReceiver();
                     IntentFilter filter = new IntentFilter();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     notificationPublisher = new NotificationPublisher();
                     getApplicationContext().registerReceiver(notificationPublisher, new IntentFilter());
                 } else {
-                    Toast.makeText(getApplicationContext(), "WARNING! You need to connect to internet to get some feature", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.need_connection_warning, Toast.LENGTH_SHORT).show();
                 }
             }
         });

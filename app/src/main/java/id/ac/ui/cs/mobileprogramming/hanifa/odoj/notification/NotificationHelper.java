@@ -41,6 +41,4 @@ public class NotificationHelper extends ContextWrapper {
 
         return mManager;
     }
-
-
 }

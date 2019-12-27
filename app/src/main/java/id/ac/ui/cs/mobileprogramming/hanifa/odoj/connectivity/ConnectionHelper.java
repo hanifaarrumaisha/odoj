@@ -53,8 +53,6 @@ public class ConnectionHelper extends LiveData<Boolean>{
         }
     }
 
-
-
     private void updateConnection() {
         if (getManager() != null) {
             NetworkInfo activeNetwork = getManager().getActiveNetworkInfo();
@@ -64,7 +62,6 @@ public class ConnectionHelper extends LiveData<Boolean>{
                 postValue(false);
             }
         }
-
     }
 
     class MyNetworkCallback extends ConnectivityManager.NetworkCallback {
@@ -82,6 +79,5 @@ public class ConnectionHelper extends LiveData<Boolean>{
             postValue(false);
 //            TODO create IPC to enable the data
         }
-
     }
 }

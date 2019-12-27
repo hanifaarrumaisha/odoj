@@ -49,7 +49,7 @@ public class TilawahFragment extends Fragment {
     }
 
     private TilawahViewModel mViewModel;
-    private Integer seconds;
+    private Integer minutes;
 
     @BindView(R.id.startButton)
     Button startButton;
@@ -126,8 +126,8 @@ public class TilawahFragment extends Fragment {
             @Override
             public void onClick(View v){
                 asyncStopwatch = new AsyncStopwatch();
-                seconds = 0;
-                asyncStopwatch.execute(seconds);
+                minutes = 0;
+                asyncStopwatch.execute(minutes);
                 startButton.setEnabled(false);
                 resumeButton.setEnabled(false);
                 stopButton.setEnabled(true);
@@ -145,68 +145,12 @@ public class TilawahFragment extends Fragment {
             @Override
             public void onClick(View v){
                 asyncStopwatch = new AsyncStopwatch();
-                asyncStopwatch.execute(seconds);
+                asyncStopwatch.execute(minutes);
                 resumeButton.setEnabled(false);
                 startButton.setEnabled(false);
             }
         });
-        saveButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                int pageInput = Integer.parseInt(totalPageInput.getText().toString());
-                if (todayTilawah != null){
-                    int totalPage = todayTilawah.getJmlHalaman() + pageInput;
-                    int pageRequest = totalPage;
-
-                    if (yesterdayTilawah != null){
-                        pageRequest = additionJNI(yesterdayTilawah.getPage(), totalPage);
-                        System.out.println("Yesterday is not null");
-                    }else{
-                        System.out.println("Yesterday is null");
-                    }
-
-                    int finalTotalPage = totalPage;
-                    int finalPageRequest = pageRequest;
-
-                    new Handler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            APICall apiCall = new APICall(getContext());
-                            apiCall.requestQuranPage(finalPageRequest, new VolleyCallback() {
-                                @Override
-                                public void onSuccess(String result) {
-                                    Gson gson = new GsonBuilder()
-                                            .excludeFieldsWithoutExposeAnnotation()
-                                            .create();
-                                    Quran quranDTO = gson.fromJson(result, Quran.class);
-                                    System.out.println("REQUEST API QURAN");
-                                    System.out.println(quranDTO.getAyahs());
-                                    Ayah lastAyah = quranDTO.getAyahs().get(quranDTO.getAyahs().size()-1);
-                                    Surah surah = lastAyah.getSurah();
-                                    Tilawah tilawah = new Tilawah(Utils.getDateTime(), finalTotalPage,surah.getEnglishName(),lastAyah.getJuz(),lastAyah.getNumberInSurah(),lastAyah.getPage());
-
-                                    mViewModel.insert(tilawah);
-                                }
-                            });
-                        }
-                    });
-
-                }else{
-                    Tilawah tilawah = new Tilawah(Utils.getDateTime(),pageInput,"",0,0,0);
-                    mViewModel.insert(tilawah);
-                }
-                System.out.println("TES");
-                totalPageInput.setText("");
-                Toast.makeText(getContext(), R.string.success_update, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    private void setUpViewModel() {
-        mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
-        mViewModel.getAllTilawah().observe(this, new AllTilawahObserver());
-        mViewModel.getTodayTilawah().observe(this, new TodayTilawahObserver());
-        mViewModel.getYesterdayTilawah().observe(this, new YesterdayTilawahObserver());
+        saveButton.setOnClickListener(new SaveButtonCallback());
     }
 
     private class AsyncStopwatch extends AsyncTask<Integer, String, Integer> {
@@ -214,16 +158,16 @@ public class TilawahFragment extends Fragment {
         protected Integer doInBackground(Integer... integers) {
             System.out.println("Started");
             while (!isCancelled()){
-                publishProgress(Integer.toString(seconds));
+                publishProgress(Integer.toString(minutes));
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(60000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                seconds = seconds+1;
-                System.out.println(seconds);
+                minutes = minutes+1;
+                System.out.println(minutes);
             }
-            return seconds;
+            return minutes;
         }
 
         @Override
@@ -232,7 +176,12 @@ public class TilawahFragment extends Fragment {
         }
     }
 
-    public native int additionJNI(int left, int right);
+    private void setUpViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(TilawahViewModel.class);
+        mViewModel.getAllTilawah().observe(this, new AllTilawahObserver());
+        mViewModel.getTodayTilawah().observe(this, new TodayTilawahObserver());
+        mViewModel.getYesterdayTilawah().observe(this, new YesterdayTilawahObserver());
+    }
 
     private class TodayTilawahObserver implements Observer<Tilawah> {
         @Override
@@ -266,4 +215,60 @@ public class TilawahFragment extends Fragment {
             }
         }
     }
+
+    private class SaveButtonCallback implements View.OnClickListener {
+        @Override
+        public void onClick(View v){
+            int pageInput = Integer.parseInt(totalPageInput.getText().toString());
+            if (todayTilawah != null){
+                int totalPage = additionJNI(todayTilawah.getJmlHalaman(),pageInput);
+                int pageRequest = totalPage;
+
+                if (yesterdayTilawah != null){
+                    pageRequest = additionJNI(yesterdayTilawah.getPage(), totalPage);
+                    System.out.println("Yesterday is not null");
+                }else{
+                    System.out.println("Yesterday is null");
+                }
+
+                int finalTotalPage = totalPage;
+                int finalPageRequest = pageRequest;
+
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        APICall apiCall = new APICall(getContext());
+                        apiCall.requestQuranPage(finalPageRequest, new VolleyCallback() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Gson gson = new GsonBuilder()
+                                        .excludeFieldsWithoutExposeAnnotation()
+                                        .create();
+                                Quran quranDTO = gson.fromJson(result, Quran.class);
+                                System.out.println("REQUEST API QURAN");
+                                System.out.println(quranDTO.getAyahs());
+                                Ayah lastAyah = quranDTO.getAyahs().get(quranDTO.getAyahs().size()-1);
+                                Surah surah = lastAyah.getSurah();
+                                Tilawah tilawah = new Tilawah(Utils.getDateTime(),
+                                        finalTotalPage,
+                                        surah.getEnglishName(),
+                                        lastAyah.getJuz(),
+                                        lastAyah.getNumberInSurah()
+                                        ,lastAyah.getPage());
+                                mViewModel.insert(tilawah);
+                            }
+                        });
+                    }
+                });
+            }else{
+                Tilawah tilawah = new Tilawah(Utils.getDateTime(),pageInput,"",0,0,0);
+                mViewModel.insert(tilawah);
+            }
+            System.out.println("TES");
+            totalPageInput.setText("");
+            Toast.makeText(getContext(), R.string.success_update, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public native int additionJNI(int left, int right);
 }

@@ -3,6 +3,8 @@ package id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.entity;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTimeDTO;
+
 public class PrayerTime {
     private Calendar date_for = Calendar.getInstance();
     private Calendar fajr = Calendar.getInstance();
@@ -12,11 +14,11 @@ public class PrayerTime {
     private Calendar maghrib = Calendar.getInstance();
     private Calendar isha = Calendar.getInstance();
 
-    public PrayerTime(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime DTO) {
+    public PrayerTime(PrayerTimeDTO DTO) {
         this.parseData(DTO);
     }
 
-    private void parseData(id.ac.ui.cs.mobileprogramming.hanifa.odoj.data.dto.PrayerTime dto) {
+    private void parseData(PrayerTimeDTO dto) {
         HashMap<Integer, Integer> time = parseTime(dto.getFajr());
         setTime(fajr, time);
         time = parseTime(dto.getShurooq());
